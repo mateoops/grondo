@@ -1,0 +1,16 @@
+server:
+  port: 8080
+  contextPath: /api
+jobs:
+  - name: "cronjob1"
+    cron: "1 4 5 5 5"
+    command: "echo 'cronjob1'"
+    enabled: true
+  - name: "cronjob2"
+    cron: "0 16 10 * *"
+    enabled: true
+    command: "echo 'cronjob2'"
+  - name: "cronjob3"
+    cron: "* * * * *"
+    enabled: false
+    command: "echo 'cronjob3'"
