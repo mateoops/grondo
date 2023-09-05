@@ -4,19 +4,19 @@ import (
 	"fmt"
 	"grondo/controllers"
 	sql "grondo/db"
-	"grondo/initializers"
+	"grondo/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
 func init() {
-	initializers.LoadYamlConfig()
+	utils.LoadYamlConfig()
 	sql.InitDB()
 }
 
 func main() {
 	fmt.Println("Config:")
-	fmt.Println(initializers.AppConfig)
+	fmt.Println(utils.AppConfig)
 
 	r := gin.Default()
 
