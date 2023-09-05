@@ -2,20 +2,29 @@ package main
 
 import (
 	"fmt"
-	"grondo/db/sql"
-	"grondo/services/scheduler"
-	"grondo/utils"
+	"grondo/controllers"
+	sql "grondo/db"
+	"grondo/initializers"
+
+	"github.com/gin-gonic/gin"
 )
 
-func main() {
-	fmt.Println(utils.Config)
-
-	for _, job := range utils.Config.Jobs {
-		fmt.Println(job.Name)
-		fmt.Println(scheduler.ParseCron(job.Cron))
-	}
-
+func init() {
+	initializers.LoadYamlConfig()
 	sql.InitDB()
-	sql.TestConnection()
-	sql.CloseDB()
+}
+
+func main() {
+	fmt.Println("Config:")
+	fmt.Println(initializers.AppConfig)
+
+	r := gin.Default()
+
+	r.POST("/api/v1/cronjob", controllers.CronjobCreate)
+	r.GET("/api/v1/cronjob", controllers.CronjobIndex)
+	r.GET("/api/v1/cronjob/:id", controllers.CronjobShow)
+	r.PUT("/api/v1/cronjob/:id", controllers.CronjobUpdate)
+	r.DELETE("/api/v1/cronjob/:id", controllers.CronjobDelete)
+
+	r.Run()
 }

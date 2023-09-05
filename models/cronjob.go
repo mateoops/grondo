@@ -1,7 +1,11 @@
-package db
+package models
+
+import (
+	"gorm.io/gorm"
+)
 
 type CronJob struct {
-	Id      int64
+	gorm.Model
 	Name    string
 	Cron    string
 	Enabled bool
