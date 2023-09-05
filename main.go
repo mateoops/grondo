@@ -17,14 +17,17 @@ func init() {
 func main() {
 	fmt.Println("Config:")
 	fmt.Println(utils.AppConfig)
+	contextPath := utils.AppConfig.Server.ContextPath
+	apiVersion := "v1"
+	apiLocation := fmt.Sprintf("%s/%s", contextPath, apiVersion)
 
 	r := gin.Default()
 
-	r.POST("/api/v1/cronjob", controllers.CronjobCreate)
-	r.GET("/api/v1/cronjob", controllers.CronjobIndex)
-	r.GET("/api/v1/cronjob/:id", controllers.CronjobShow)
-	r.PUT("/api/v1/cronjob/:id", controllers.CronjobUpdate)
-	r.DELETE("/api/v1/cronjob/:id", controllers.CronjobDelete)
+	r.POST(apiLocation+"/cronjob", controllers.CronjobCreate)
+	r.GET(apiLocation+"/cronjob", controllers.CronjobIndex)
+	r.GET(apiLocation+"/cronjob/:id", controllers.CronjobShow)
+	r.PUT(apiLocation+"/cronjob/:id", controllers.CronjobUpdate)
+	r.DELETE(apiLocation+"/cronjob/:id", controllers.CronjobDelete)
 
 	r.Run()
 }
