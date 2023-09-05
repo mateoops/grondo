@@ -16,6 +16,7 @@ type JobConfig struct {
 type ServerConfig struct {
 	Port        string `yaml:"port"`
 	ContextPath string `yaml:"contextPath"`
+	ApiVersion  string `yaml:"apiVersion"`
 }
 
 type YamlConfig struct {
