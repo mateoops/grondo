@@ -3,9 +3,11 @@ package main
 import (
 	"fmt"
 	"grondo/controllers"
-	sql "grondo/db"
-	scheduler "grondo/services"
+	"grondo/db/sql"
+	"grondo/services/queueManager"
+	"grondo/services/scheduler"
 	"grondo/utils"
+	"log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,11 +17,12 @@ func init() {
 	sql.InitDB()
 
 	go scheduler.StartScheduler()
+	go queueManager.StartQueueManager()
 }
 
 func main() {
-	fmt.Println("Config:")
-	fmt.Println(utils.AppConfig)
+	log.Println("Config:")
+	log.Println(utils.AppConfig)
 
 	contextPath := fmt.Sprintf("%s/%s", utils.AppConfig.Server.ContextPath, utils.AppConfig.Server.ApiVersion)
 
@@ -31,9 +34,11 @@ func main() {
 	r.PUT(contextPath+"/cronjob/:id", controllers.CronjobUpdate)
 	r.DELETE(contextPath+"/cronjob/:id", controllers.CronjobDelete)
 
-	r.GET(contextPath+"/schedule", controllers.CronjobNextOccurIndex)
-	r.GET(contextPath+"/schedule/:id", controllers.CronjobNextOccurShow)
-	r.DELETE(contextPath+"/schedule/:id", controllers.CronjobNextOccurDelete)
+	r.GET(contextPath+"/schedule", controllers.ScheduleIndex)
+	r.GET(contextPath+"/schedule/:id", controllers.ScheduleShow)
+
+	r.GET(contextPath+"/queue", controllers.CronjobQueue)
+	r.GET(contextPath+"/queue/:id", controllers.CronjobQueueShow)
 
 	r.Run()
 }

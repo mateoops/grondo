@@ -6,9 +6,12 @@ import (
 	"gorm.io/gorm"
 )
 
-type CronJobNextOccur struct {
+type Schedule struct {
 	gorm.Model
+
+	NextOccur time.Time
+	Status    string
+
 	CronJobID uint
 	CronJob   CronJob
-	NextOccur time.Time
 }

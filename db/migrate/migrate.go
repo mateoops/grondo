@@ -1,8 +1,9 @@
 package main
 
 import (
-	sql "grondo/db"
+	"grondo/db/sql"
 	"grondo/models"
+	"log"
 )
 
 func init() {
@@ -10,6 +11,11 @@ func init() {
 }
 
 func main() {
+	log.Println("Migrating database...")
+
 	sql.DB.AutoMigrate(&models.CronJob{})
-	sql.DB.AutoMigrate(&models.CronJobNextOccur{})
+	sql.DB.AutoMigrate(&models.Schedule{})
+	sql.DB.AutoMigrate(&models.Queue{})
+
+	log.Println("Migration completed!")
 }

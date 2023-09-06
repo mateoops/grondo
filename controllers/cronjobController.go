@@ -1,12 +1,13 @@
 package controllers
 
 import (
-	sql "grondo/db"
+	"grondo/db/sql"
 	"grondo/models"
 
 	"github.com/gin-gonic/gin"
 )
 
+// Create a new cronjob object in the database
 func CronjobCreate(c *gin.Context) {
 	var body struct {
 		Name    string
@@ -17,9 +18,9 @@ func CronjobCreate(c *gin.Context) {
 
 	c.Bind(&body)
 
-	post := models.CronJob{Name: body.Name, Cron: body.Cron, Enabled: body.Enabled, Command: body.Command}
+	job := models.CronJob{Name: body.Name, Cron: body.Cron, Enabled: body.Enabled, Command: body.Command}
 
-	result := sql.DB.Create(&post)
+	result := sql.DB.Create(&job)
 
 	if result.Error != nil {
 		c.JSON(500, gin.H{
@@ -33,10 +34,11 @@ func CronjobCreate(c *gin.Context) {
 	})
 }
 
+// List all cronjob objects in the database
 func CronjobIndex(c *gin.Context) {
-	var posts []models.CronJob
+	var jobs []models.CronJob
 
-	result := sql.DB.Find(&posts)
+	result := sql.DB.Find(&jobs)
 
 	if result.Error != nil {
 		c.JSON(500, gin.H{
@@ -46,15 +48,16 @@ func CronjobIndex(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"result": posts,
+		"result": jobs,
 	})
 }
 
+// Show a specific cronjob object in the database
 func CronjobShow(c *gin.Context) {
 	id := c.Param("id")
 
-	var post models.CronJob
-	result := sql.DB.First(&post, id)
+	var job models.CronJob
+	result := sql.DB.First(&job, id)
 
 	if result.Error != nil {
 		c.JSON(500, gin.H{
@@ -64,10 +67,11 @@ func CronjobShow(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"result": post,
+		"result": job,
 	})
 }
 
+// Update a specific cronjob object in the database
 func CronjobUpdate(c *gin.Context) {
 	id := c.Param("id")
 
@@ -80,8 +84,8 @@ func CronjobUpdate(c *gin.Context) {
 
 	c.Bind(&body)
 
-	var post models.CronJob
-	result := sql.DB.First(&post, id)
+	var job models.CronJob
+	result := sql.DB.First(&job, id)
 
 	if result.Error != nil {
 		c.JSON(500, gin.H{
@@ -90,23 +94,28 @@ func CronjobUpdate(c *gin.Context) {
 		return
 	}
 
-	sql.DB.Model(&post).Updates(models.CronJob{
+	sql.DB.Model(&job).Updates(models.CronJob{
 		Name:    body.Name,
 		Cron:    body.Cron,
 		Enabled: body.Enabled,
 		Command: body.Command,
 	})
 
+	// Remove all scheduled jobs
+	var schedule models.Schedule
+	sql.DB.Delete(&schedule, "cron_job_id = ?", id)
+
 	c.JSON(200, gin.H{
-		"result": post,
+		"result": job,
 	})
 }
 
+// Delete a specific cronjob object in the database
 func CronjobDelete(c *gin.Context) {
 	id := c.Param("id")
 
-	var post models.CronJob
-	result := sql.DB.First(&post, id)
+	var job models.CronJob
+	result := sql.DB.First(&job, id)
 
 	if result.Error != nil {
 		c.JSON(500, gin.H{
@@ -115,7 +124,11 @@ func CronjobDelete(c *gin.Context) {
 		return
 	}
 
-	sql.DB.Delete(&post)
+	sql.DB.Delete(&job)
+
+	// Delete all scheduled jobs
+	var schedule models.Schedule
+	sql.DB.Delete(&schedule, "cron_job_id = ?", id)
 
 	c.JSON(200, gin.H{
 		"result": "success",
