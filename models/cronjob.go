@@ -10,4 +10,5 @@ type CronJob struct {
 	Cron    string
 	Enabled bool
 	Command string
+	Args    string
 }

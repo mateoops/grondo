@@ -16,6 +16,7 @@ func main() {
 	sql.DB.AutoMigrate(&models.CronJob{})
 	sql.DB.AutoMigrate(&models.Schedule{})
 	sql.DB.AutoMigrate(&models.Queue{})
+	sql.DB.AutoMigrate(&models.JobExecLog{})
 
 	log.Println("Migration completed!")
 }

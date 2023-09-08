@@ -14,11 +14,12 @@ func CronjobCreate(c *gin.Context) {
 		Cron    string
 		Enabled bool
 		Command string
+		Args    string
 	}
 
 	c.Bind(&body)
 
-	job := models.CronJob{Name: body.Name, Cron: body.Cron, Enabled: body.Enabled, Command: body.Command}
+	job := models.CronJob{Name: body.Name, Cron: body.Cron, Enabled: body.Enabled, Command: body.Command, Args: body.Args}
 
 	result := sql.DB.Create(&job)
 

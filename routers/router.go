@@ -26,7 +26,12 @@ func InitRouter() *gin.Engine {
 	r.GET(contextPath+"/schedule/:id", controllers.ScheduleShow)
 
 	// Queue routes
-	r.GET(contextPath+"/queue", controllers.CronjobQueue)
+	r.GET(contextPath+"/queue", controllers.CronjobQueueIndex)
 	r.GET(contextPath+"/queue/:id", controllers.CronjobQueueShow)
+
+	// JobExecLog routes
+	r.GET(contextPath+"/log", controllers.JobExecLogIndex)
+	r.GET(contextPath+"/log/:id", controllers.JobExecLogShow)
+
 	return r
 }

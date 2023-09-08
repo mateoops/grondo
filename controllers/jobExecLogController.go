@@ -7,11 +7,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Create a new queue object in the database
-func CronjobQueue(c *gin.Context) {
-	var queueElements []models.Queue
+// Show all exec log objects in the database
+func JobExecLogIndex(c *gin.Context) {
+	var e []models.JobExecLog
 
-	result := sql.DB.Preload("Schedule").Find(&queueElements)
+	result := sql.DB.Preload("Schedule").Find(&e)
 
 	if result.Error != nil {
 		c.JSON(500, gin.H{
@@ -21,16 +21,16 @@ func CronjobQueue(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"result": queueElements,
+		"result": e,
 	})
 }
 
 // Show a specific queue object in the database
-func CronjobQueueShow(c *gin.Context) {
+func JobExecLogShow(c *gin.Context) {
 	id := c.Param("id")
 
-	var queue models.Queue
-	result := sql.DB.Preload("Schedule").First(&queue, id)
+	var e models.JobExecLog
+	result := sql.DB.Preload("Schedule").First(&e, id)
 
 	if result.Error != nil {
 		c.JSON(500, gin.H{
@@ -40,6 +40,6 @@ func CronjobQueueShow(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"result": queue,
+		"result": e,
 	})
 }

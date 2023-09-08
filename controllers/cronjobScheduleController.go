@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Create a new schedule object in the database
+// Show all schedule objects in the database
 func ScheduleIndex(c *gin.Context) {
 	var schedules []models.Schedule
 

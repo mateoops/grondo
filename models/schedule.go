@@ -11,7 +11,6 @@ type Schedule struct {
 
 	NextOccur time.Time
 	Status    string
-
 	CronJobID uint
 	CronJob   CronJob
 }
