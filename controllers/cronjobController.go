@@ -10,16 +10,17 @@ import (
 // Create a new cronjob object in the database
 func CronjobCreate(c *gin.Context) {
 	var body struct {
-		Name    string
-		Cron    string
-		Enabled bool
-		Command string
-		Args    string
+		Name      string
+		Cron      string
+		Enabled   bool
+		Command   string
+		Args      string
+		MachineID uint
 	}
 
 	c.Bind(&body)
 
-	job := models.CronJob{Name: body.Name, Cron: body.Cron, Enabled: body.Enabled, Command: body.Command, Args: body.Args}
+	job := models.CronJob{Name: body.Name, Cron: body.Cron, Enabled: body.Enabled, Command: body.Command, Args: body.Args, MachineID: body.MachineID}
 
 	result := sql.DB.Create(&job)
 
@@ -77,10 +78,12 @@ func CronjobUpdate(c *gin.Context) {
 	id := c.Param("id")
 
 	var body struct {
-		Name    string
-		Cron    string
-		Enabled bool
-		Command string
+		Name      string
+		Cron      string
+		Enabled   bool
+		Command   string
+		Args      string
+		MachineId uint
 	}
 
 	c.Bind(&body)
@@ -96,10 +99,12 @@ func CronjobUpdate(c *gin.Context) {
 	}
 
 	sql.DB.Model(&job).Updates(models.CronJob{
-		Name:    body.Name,
-		Cron:    body.Cron,
-		Enabled: body.Enabled,
-		Command: body.Command,
+		Name:      body.Name,
+		Cron:      body.Cron,
+		Enabled:   body.Enabled,
+		Command:   body.Command,
+		Args:      body.Args,
+		MachineID: body.MachineId,
 	})
 
 	// Remove all scheduled jobs

@@ -6,9 +6,11 @@ import (
 
 type CronJob struct {
 	gorm.Model
-	Name    string
-	Cron    string
-	Enabled bool
-	Command string
-	Args    string
+	Name      string
+	Cron      string
+	Enabled   bool
+	Command   string
+	Args      string
+	MachineID uint
+	Machine   Machine
 }

@@ -17,6 +17,9 @@ func main() {
 	sql.DB.AutoMigrate(&models.Schedule{})
 	sql.DB.AutoMigrate(&models.Queue{})
 	sql.DB.AutoMigrate(&models.JobExecLog{})
+	sql.DB.AutoMigrate(&models.Machine{})
+	sql.DB.AutoMigrate(&models.UserWithPassword{})
+	sql.DB.AutoMigrate(&models.UserWithSSHKey{})
 
 	log.Println("Migration completed!")
 }

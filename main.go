@@ -6,11 +6,11 @@ import (
 	"grondo/services/queueManager"
 	"grondo/services/runner"
 	"grondo/services/scheduler"
-	"grondo/utils"
+	"grondo/utils/config"
 )
 
 func init() {
-	utils.LoadYamlConfig()
+	config.LoadYamlConfig()
 	sql.InitDB()
 
 	go scheduler.StartScheduler()
