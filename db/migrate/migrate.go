@@ -1,4 +1,4 @@
-package main
+package migrate
 
 import (
 	"grondo/db/sql"
@@ -10,7 +10,7 @@ func init() {
 	sql.InitDB()
 }
 
-func main() {
+func MigrateDB() {
 	log.Println("Migrating database...")
 
 	sql.DB.AutoMigrate(&models.CronJob{})

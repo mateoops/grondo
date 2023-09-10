@@ -1,6 +1,7 @@
 package main
 
 import (
+	"grondo/db/migrate"
 	"grondo/db/sql"
 	"grondo/routers"
 	"grondo/services/queueManager"
@@ -11,6 +12,7 @@ import (
 
 func init() {
 	config.LoadYamlConfig()
+	migrate.MigrateDB()
 	sql.InitDB()
 
 	go scheduler.StartScheduler()
