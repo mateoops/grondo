@@ -7,7 +7,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Create a new UserWithPassword credential object in the database
+// UserPassCreate godoc
+// @Summary      Create User with Password (UserPass) object
+// @Tags         cronjob credentials
+// @Accept 		 json
+// @Produce      json
+// @Success      200  {array}  models.UserWithPassword
+// @Failure      500  {object}  string
+// @Param        password body models.UserWithPassword true "UserWithPassword object"
+// @Router       /user/password [post]
 func UserPassCreate(c *gin.Context) {
 	var body struct {
 		Username string
@@ -32,7 +40,13 @@ func UserPassCreate(c *gin.Context) {
 	})
 }
 
-// List all UserWithPassword credential objects in the database
+// UserPassIndex godoc
+// @Summary      List all UserWithPassword objects
+// @Tags         cronjob credentials
+// @Produce      json
+// @Success      200  {object}  models.UserWithPassword
+// @Failure      500  {object}  string
+// @Router       /user/password [get]
 func UserPassIndex(c *gin.Context) {
 	var credentials []models.UserWithPassword
 
@@ -50,7 +64,14 @@ func UserPassIndex(c *gin.Context) {
 	})
 }
 
-// Show a specific UserWithPassword credential object in the database
+// UserPassShow godoc
+// @Summary      Get UserWithPassword object by providing ID
+// @Tags         cronjob credentials
+// @Produce      json
+// @Success      200  {array}  models.UserWithPassword
+// @Failure      500  {object}  string
+// @Param        id  path  int  true  "ID"
+// @Router       /user/password/{id} [get]
 func UserPassShow(c *gin.Context) {
 	id := c.Param("id")
 
@@ -70,7 +91,16 @@ func UserPassShow(c *gin.Context) {
 	})
 }
 
-// Update a specific UserWithPassword credential object in the database
+// UserPassUpdate godoc
+// @Summary      Update UserWithPassword object by providing ID
+// @Tags         cronjob credentials
+// @Accept 		 json
+// @Produce      json
+// @Success      200  {array}  models.UserWithPassword
+// @Failure      500  {object}  string
+// @Param        password body models.UserWithPassword true "UserWithPassword object"
+// @Param        id  path  int  true  "ID"
+// @Router       /user/password/{id} [put]
 func UserPassUpdate(c *gin.Context) {
 	id := c.Param("id")
 
@@ -97,7 +127,14 @@ func UserPassUpdate(c *gin.Context) {
 	})
 }
 
-// Delete a specific UserWithPassword credential object in the database
+// UserPassDelete godoc
+// @Summary      Delete UserWithPassword object by providing ID
+// @Tags         cronjob credentials
+// @Produce      json
+// @Success      200  {object}  string
+// @Failure      500  {object}  string
+// @Param        id  path  int  true  "ID"
+// @Router       /user/password/{id} [delete]
 func UserPassDelete(c *gin.Context) {
 	id := c.Param("id")
 
@@ -117,7 +154,15 @@ func UserPassDelete(c *gin.Context) {
 	})
 }
 
-// Create a new UserWithSSHKey credential object in the database
+// UserSSHCreate godoc
+// @Summary      Create User with SSHKey (UserWithSSHKey) object
+// @Tags         cronjob credentials
+// @Accept 		 json
+// @Produce      json
+// @Success      200  {array}  models.UserWithSSHKey
+// @Failure      500  {object}  string
+// @Param        sshkey body models.UserWithSSHKey true "UserWithSSHKey object"
+// @Router       /user/sshkey [post]
 func UserSSHCreate(c *gin.Context) {
 	var body struct {
 		Username   string
@@ -143,7 +188,13 @@ func UserSSHCreate(c *gin.Context) {
 	})
 }
 
-// List all UserWithSSHKey credential objects in the database
+// UserSSHIndex godoc
+// @Summary      List all UserWithSSHKey objects
+// @Tags         cronjob credentials
+// @Produce      json
+// @Success      200  {object}  models.UserWithSSHKey
+// @Failure      500  {object}  string
+// @Router       /user/sshkey [get]
 func UserSSHIndex(c *gin.Context) {
 	var credentials []models.UserWithSSHKey
 
@@ -161,7 +212,14 @@ func UserSSHIndex(c *gin.Context) {
 	})
 }
 
-// Show a specific UserWithSSHKey credential object in the database
+// UserSSHShow godoc
+// @Summary      Get UserWithSSHKey object by providing ID
+// @Tags         cronjob credentials
+// @Produce      json
+// @Success      200  {array}  models.UserWithSSHKey
+// @Failure      500  {object}  string
+// @Param        id  path  int  true  "ID"
+// @Router       /user/sshkey/{id} [get]
 func UserSSHShow(c *gin.Context) {
 	id := c.Param("id")
 
@@ -181,7 +239,15 @@ func UserSSHShow(c *gin.Context) {
 	})
 }
 
-// Update a specific UserWithSSHKey credential object in the database
+// UserSSHUpdate godoc
+// @Summary      Update UserWithSSHKey object by providing ID
+// @Tags         cronjob credentials
+// @Accept 		 json
+// @Produce      json
+// @Success      200  {array}  models.UserWithSSHKey
+// @Failure      500  {object}  string
+// @Param        sshkey body models.UserWithSSHKey true "UserWithSSHKey object"
+// @Router       /user/sshkey/{id} [put]
 func UserSSHUpdate(c *gin.Context) {
 	id := c.Param("id")
 
@@ -209,7 +275,14 @@ func UserSSHUpdate(c *gin.Context) {
 	})
 }
 
-// Delete a specific UserWithSSHKey credential object in the database
+// UserSSHDelete godoc
+// @Summary      Delete UserWithSSHKey object by providing ID
+// @Tags         cronjob credentials
+// @Produce      json
+// @Success      200  {object}  string
+// @Failure      500  {object}  string
+// @Param        id  path  int  true  "ID"
+// @Router       /user/sshkey/{id} [delete]
 func UserSSHDelete(c *gin.Context) {
 	id := c.Param("id")
 

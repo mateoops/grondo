@@ -3,56 +3,72 @@ package routers
 import (
 	"fmt"
 	"grondo/controllers"
+	_ "grondo/docs"
 	"grondo/utils/config"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func InitRouter() *gin.Engine {
 
-	contextPath := fmt.Sprintf("%s/%s", config.AppConfig.Server.ContextPath, config.AppConfig.Server.ApiVersion)
-
 	r := gin.Default()
 
-	// Cronjob routes
-	r.POST(contextPath+"/cronjob", controllers.CronjobCreate)
-	r.GET(contextPath+"/cronjob", controllers.CronjobIndex)
-	r.GET(contextPath+"/cronjob/:id", controllers.CronjobShow)
-	r.PUT(contextPath+"/cronjob/:id", controllers.CronjobUpdate)
-	r.DELETE(contextPath+"/cronjob/:id", controllers.CronjobDelete)
-
-	// Schedule routes
-	r.GET(contextPath+"/schedule", controllers.ScheduleIndex)
-	r.GET(contextPath+"/schedule/:id", controllers.ScheduleShow)
-
-	// Queue routes
-	r.GET(contextPath+"/queue", controllers.CronjobQueueIndex)
-	r.GET(contextPath+"/queue/:id", controllers.CronjobQueueShow)
-
-	// JobExecLog routes
-	r.GET(contextPath+"/log", controllers.JobExecLogIndex)
-	r.GET(contextPath+"/log/:id", controllers.JobExecLogShow)
-
-	// Machine routes
-	r.POST(contextPath+"/machine", controllers.MachineCreate)
-	r.GET(contextPath+"/machine", controllers.MachineIndex)
-	r.GET(contextPath+"/machine/:id", controllers.MachineShow)
-	r.PUT(contextPath+"/machine/:id", controllers.MachineUpdate)
-	r.DELETE(contextPath+"/machine/:id", controllers.MachineDelete)
-
-	// UserWithPassword routes
-	r.POST(contextPath+"/user/password", controllers.UserPassCreate)
-	r.GET(contextPath+"/user/password", controllers.UserPassIndex)
-	r.GET(contextPath+"/user/password/:id", controllers.UserPassShow)
-	r.PUT(contextPath+"/user/password/:id", controllers.UserPassUpdate)
-	r.DELETE(contextPath+"/user/password/:id", controllers.UserPassDelete)
-
-	// UserWithSSHKey routes
-	r.POST(contextPath+"/user/sshkey", controllers.UserSSHCreate)
-	r.GET(contextPath+"/user/sshkey", controllers.UserSSHIndex)
-	r.GET(contextPath+"/user/sshkey/:id", controllers.UserSSHShow)
-	r.PUT(contextPath+"/user/sshkey/:id", controllers.UserSSHUpdate)
-	r.DELETE(contextPath+"/user/sshkey/:id", controllers.UserSSHDelete)
+	v1 := r.Group(fmt.Sprintf("%s/%s", config.AppConfig.Server.ContextPath, config.AppConfig.Server.ApiVersion))
+	{
+		cronjob := v1.Group("/cronjob")
+		{
+			cronjob.POST("", controllers.CronjobCreate)
+			cronjob.GET("", controllers.CronjobIndex)
+			cronjob.GET(":id", controllers.CronjobShow)
+			cronjob.PUT(":id", controllers.CronjobUpdate)
+			cronjob.DELETE(":id", controllers.CronjobDelete)
+		}
+		schedule := v1.Group("/schedule")
+		{
+			schedule.GET("", controllers.ScheduleIndex)
+			schedule.GET(":id", controllers.ScheduleShow)
+		}
+		queue := v1.Group("/queue")
+		{
+			queue.GET("", controllers.CronjobQueueIndex)
+			queue.GET(":id", controllers.CronjobQueueShow)
+		}
+		log := v1.Group("/log")
+		{
+			log.GET("", controllers.JobExecLogIndex)
+			log.GET(":id", controllers.JobExecLogShow)
+		}
+		machine := v1.Group("/machine")
+		{
+			machine.POST("", controllers.MachineCreate)
+			machine.GET("", controllers.MachineIndex)
+			machine.GET(":id", controllers.MachineShow)
+			machine.PUT(":id", controllers.MachineUpdate)
+			machine.DELETE(":id", controllers.MachineDelete)
+		}
+		user := v1.Group("/user")
+		{
+			userWithPassword := user.Group("/password")
+			{
+				userWithPassword.POST("", controllers.UserPassCreate)
+				userWithPassword.GET("", controllers.UserPassIndex)
+				userWithPassword.GET(":id", controllers.UserPassShow)
+				userWithPassword.PUT(":id", controllers.UserPassUpdate)
+				userWithPassword.DELETE(":id", controllers.UserPassDelete)
+			}
+			userWithSSHKey := user.Group("/sshkey")
+			{
+				userWithSSHKey.POST("", controllers.UserSSHCreate)
+				userWithSSHKey.GET("", controllers.UserSSHIndex)
+				userWithSSHKey.GET(":id", controllers.UserSSHShow)
+				userWithSSHKey.PUT(":id", controllers.UserSSHUpdate)
+				userWithSSHKey.DELETE(":id", controllers.UserSSHDelete)
+			}
+		}
+		v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
 
 	return r
 }

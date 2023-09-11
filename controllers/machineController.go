@@ -7,7 +7,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Create a new machine object in the database
+// MachineCreate godoc
+// @Summary      Create Machine object
+// @Tags         cronjob machine
+// @Accept 		 json
+// @Produce      json
+// @Success      200  {array}  models.Machine
+// @Failure      500  {object}  string
+// @Param        machine body models.Machine true "Machine object"
+// @Router       /machine [post]
 func MachineCreate(c *gin.Context) {
 	var body struct {
 		Address            string
@@ -34,7 +42,13 @@ func MachineCreate(c *gin.Context) {
 	})
 }
 
-// List all machine objects in the database
+// MachineIndex godoc
+// @Summary      List all Machine objects
+// @Tags         cronjob machine
+// @Produce      json
+// @Success      200  {object}  models.Machine
+// @Failure      500  {object}  string
+// @Router       /machine [get]
 func MachineIndex(c *gin.Context) {
 	var machines []models.Machine
 
@@ -52,7 +66,14 @@ func MachineIndex(c *gin.Context) {
 	})
 }
 
-// Show a specific machine object in the database
+// MachineShow godoc
+// @Summary      Get Machine object by providing ID
+// @Tags         cronjob machine
+// @Produce      json
+// @Success      200  {array}  models.Machine
+// @Failure      500  {object}  string
+// @Param        id  path  int  true  "ID"
+// @Router       /machine/{id} [get]
 func MachineShow(c *gin.Context) {
 	id := c.Param("id")
 
@@ -72,7 +93,16 @@ func MachineShow(c *gin.Context) {
 	})
 }
 
-// Update a specific machine object in the database
+// MachineUpdate godoc
+// @Summary      Update Machine object by providing ID
+// @Tags         cronjob machine
+// @Accept 		 json
+// @Produce      json
+// @Success      200  {array}  models.Machine
+// @Failure      500  {object}  string
+// @Param        machine body models.Machine true "Machine object"
+// @Param        id  path  int  true  "ID"
+// @Router       /machine/{id} [put]
 func MachineUpdate(c *gin.Context) {
 	id := c.Param("id")
 
@@ -107,7 +137,14 @@ func MachineUpdate(c *gin.Context) {
 	})
 }
 
-// Delete a specific machine object in the database
+// MachineDelete godoc
+// @Summary      Delete Machine object by providing ID
+// @Tags         cronjob machine
+// @Produce      json
+// @Success      200  {object}  string
+// @Failure      500  {object}  string
+// @Param        id  path  int  true  "ID"
+// @Router       /machine/{id} [delete]
 func MachineDelete(c *gin.Context) {
 	id := c.Param("id")
 

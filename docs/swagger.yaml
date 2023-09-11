@@ -1,0 +1,752 @@
+basePath: /api/v1
+definitions:
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  models.CronJob:
+    properties:
+      args:
+        type: string
+      command:
+        type: string
+      createdAt:
+        type: string
+      cron:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      enabled:
+        type: boolean
+      id:
+        type: integer
+      machine:
+        $ref: '#/definitions/models.Machine'
+      machineID:
+        type: integer
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.JobExecLog:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      endTime:
+        type: string
+      id:
+        type: integer
+      output:
+        type: string
+      schedule:
+        $ref: '#/definitions/models.Schedule'
+      scheduleID:
+        type: integer
+      startTime:
+        type: string
+      status:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.Machine:
+    properties:
+      address:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      port:
+        type: integer
+      updatedAt:
+        type: string
+      userWithPassword:
+        $ref: '#/definitions/models.UserWithPassword'
+      userWithPasswordID:
+        type: integer
+      userWithSSHKey:
+        $ref: '#/definitions/models.UserWithSSHKey'
+      userWithSSHKeyID:
+        type: integer
+    type: object
+  models.Queue:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      jobExecLogID:
+        type: integer
+      schedule:
+        $ref: '#/definitions/models.Schedule'
+      scheduleID:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
+  models.Schedule:
+    properties:
+      createdAt:
+        type: string
+      cronJob:
+        $ref: '#/definitions/models.CronJob'
+      cronJobID:
+        type: integer
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      nextOccur:
+        type: string
+      status:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.UserWithPassword:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      password:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
+  models.UserWithSSHKey:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      passphrase:
+        type: string
+      sshkey:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: mateoops.dev@gmail.com
+    name: Author
+    url: https://github.com/mateoops/grondo
+  description: Centralized cron jobs with web GUI.
+  license:
+    name: MIT License
+    url: https://github.com/mateoops/grondo/blob/main/LICENSE
+  termsOfService: https://github.com/mateoops/grondo
+  title: GRONDO API
+  version: 0.0.1
+paths:
+  /cronjob:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.CronJob'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: List all CronJob objects
+      tags:
+      - cronjob
+  /cronjob/:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: CronJob object
+        in: body
+        name: cronjob
+        required: true
+        schema:
+          $ref: '#/definitions/models.CronJob'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.CronJob'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Create Cronjob object
+      tags:
+      - cronjob
+  /cronjob/{id}:
+    delete:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Delete CronJob object by providing ID
+      tags:
+      - cronjob
+    get:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.CronJob'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get Cronjob object by providing ID
+      tags:
+      - cronjob
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: CronJob object
+        in: body
+        name: cronjob
+        required: true
+        schema:
+          $ref: '#/definitions/models.CronJob'
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.CronJob'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Update CronJob object by providing ID
+      tags:
+      - cronjob
+  /log:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.JobExecLog'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: List all JobExecLog objects
+      tags:
+      - cronjob execution_log
+  /log/{id}:
+    get:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.JobExecLog'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get JobExecLog object by providing ID
+      tags:
+      - cronjob execution_log
+  /machine:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Machine'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: List all Machine objects
+      tags:
+      - cronjob machine
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Machine object
+        in: body
+        name: machine
+        required: true
+        schema:
+          $ref: '#/definitions/models.Machine'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Machine'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Create Machine object
+      tags:
+      - cronjob machine
+  /machine/{id}:
+    delete:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Delete Machine object by providing ID
+      tags:
+      - cronjob machine
+    get:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Machine'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get Machine object by providing ID
+      tags:
+      - cronjob machine
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Machine object
+        in: body
+        name: machine
+        required: true
+        schema:
+          $ref: '#/definitions/models.Machine'
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Machine'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Update Machine object by providing ID
+      tags:
+      - cronjob machine
+  /queue:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Queue'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: List all Cronjob Queue objects
+      tags:
+      - cronjob queue
+  /queue/{id}:
+    get:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Queue'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get Cronjob Queue object by providing ID
+      tags:
+      - cronjob queue
+  /schedule:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Schedule'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: List all Schedule objects
+      tags:
+      - cronjob schedule
+  /schedule/{id}:
+    get:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Schedule'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get Schedule object by providing ID
+      tags:
+      - cronjob schedule
+  /user/password:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserWithPassword'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: List all UserWithPassword objects
+      tags:
+      - cronjob credentials
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: UserWithPassword object
+        in: body
+        name: password
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserWithPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.UserWithPassword'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Create User with Password (UserPass) object
+      tags:
+      - cronjob credentials
+  /user/password/{id}:
+    delete:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Delete UserWithPassword object by providing ID
+      tags:
+      - cronjob credentials
+    get:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.UserWithPassword'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get UserWithPassword object by providing ID
+      tags:
+      - cronjob credentials
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: UserWithPassword object
+        in: body
+        name: password
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserWithPassword'
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.UserWithPassword'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Update UserWithPassword object by providing ID
+      tags:
+      - cronjob credentials
+  /user/sshkey:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserWithSSHKey'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: List all UserWithSSHKey objects
+      tags:
+      - cronjob credentials
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: UserWithSSHKey object
+        in: body
+        name: sshkey
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserWithSSHKey'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.UserWithSSHKey'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Create User with SSHKey (UserWithSSHKey) object
+      tags:
+      - cronjob credentials
+  /user/sshkey/{id}:
+    delete:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Delete UserWithSSHKey object by providing ID
+      tags:
+      - cronjob credentials
+    get:
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.UserWithSSHKey'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get UserWithSSHKey object by providing ID
+      tags:
+      - cronjob credentials
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: UserWithSSHKey object
+        in: body
+        name: sshkey
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserWithSSHKey'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.UserWithSSHKey'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Update UserWithSSHKey object by providing ID
+      tags:
+      - cronjob credentials
+swagger: "2.0"

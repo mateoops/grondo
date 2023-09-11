@@ -7,7 +7,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Show all schedule objects in the database
+// ScheduleIndex godoc
+// @Summary      List all Schedule objects
+// @Tags         cronjob schedule
+// @Produce      json
+// @Success      200  {object}  models.Schedule
+// @Failure      500  {object}  string
+// @Router       /schedule [get]
 func ScheduleIndex(c *gin.Context) {
 	var schedules []models.Schedule
 
@@ -25,7 +31,14 @@ func ScheduleIndex(c *gin.Context) {
 	})
 }
 
-// List all schedule objects in the database
+// ScheduleShow godoc
+// @Summary      Get Schedule object by providing ID
+// @Tags         cronjob schedule
+// @Produce      json
+// @Success      200  {array}  models.Schedule
+// @Failure      500  {object}  string
+// @Param        id  path  int  true  "ID"
+// @Router       /schedule/{id} [get]
 func ScheduleShow(c *gin.Context) {
 	id := c.Param("id")
 

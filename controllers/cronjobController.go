@@ -7,7 +7,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Create a new cronjob object in the database
+// CronjobCreate godoc
+// @Summary      Create Cronjob object
+// @Tags         cronjob
+// @Accept 		 json
+// @Produce      json
+// @Success      200  {array}  models.CronJob
+// @Failure      500  {object}  string
+// @Param        cronjob body models.CronJob true "CronJob object"
+// @Router       /cronjob/ [post]
 func CronjobCreate(c *gin.Context) {
 	var body struct {
 		Name      string
@@ -36,7 +44,13 @@ func CronjobCreate(c *gin.Context) {
 	})
 }
 
-// List all cronjob objects in the database
+// CronjobIndex godoc
+// @Summary      List all CronJob objects
+// @Tags         cronjob
+// @Produce      json
+// @Success      200  {object}  models.CronJob
+// @Failure      500  {object}  string
+// @Router       /cronjob [get]
 func CronjobIndex(c *gin.Context) {
 	var jobs []models.CronJob
 
@@ -54,7 +68,14 @@ func CronjobIndex(c *gin.Context) {
 	})
 }
 
-// Show a specific cronjob object in the database
+// CronjobShow godoc
+// @Summary      Get Cronjob object by providing ID
+// @Tags         cronjob
+// @Produce      json
+// @Success      200  {array}  models.CronJob
+// @Failure      500  {object}  string
+// @Param        id  path  int  true  "ID"
+// @Router       /cronjob/{id} [get]
 func CronjobShow(c *gin.Context) {
 	id := c.Param("id")
 
@@ -73,7 +94,16 @@ func CronjobShow(c *gin.Context) {
 	})
 }
 
-// Update a specific cronjob object in the database
+// CronjobUpdate godoc
+// @Summary      Update CronJob object by providing ID
+// @Tags         cronjob
+// @Accept 		 json
+// @Produce      json
+// @Success      200  {array}  models.CronJob
+// @Failure      500  {object}  string
+// @Param        cronjob body models.CronJob true "CronJob object"
+// @Param        id  path  int  true  "ID"
+// @Router       /cronjob/{id} [put]
 func CronjobUpdate(c *gin.Context) {
 	id := c.Param("id")
 
@@ -116,7 +146,14 @@ func CronjobUpdate(c *gin.Context) {
 	})
 }
 
-// Delete a specific cronjob object in the database
+// CronjobDelete godoc
+// @Summary      Delete CronJob object by providing ID
+// @Tags         cronjob
+// @Produce      json
+// @Success      200  {object}  string
+// @Failure      500  {object}  string
+// @Param        id  path  int  true  "ID"
+// @Router       /cronjob/{id} [delete]
 func CronjobDelete(c *gin.Context) {
 	id := c.Param("id")
 
