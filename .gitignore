@@ -22,3 +22,4 @@ go.work
 
 # SQL files
 internal.db
+swag

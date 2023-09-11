@@ -7,7 +7,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Show all exec log objects in the database
+// JobExecLogIndex godoc
+// @Summary      List all JobExecLog objects
+// @Tags         cronjob execution_log
+// @Produce      json
+// @Success      200  {object}  models.JobExecLog
+// @Failure      500  {object}  string
+// @Router       /log [get]
 func JobExecLogIndex(c *gin.Context) {
 	var e []models.JobExecLog
 
@@ -25,7 +31,14 @@ func JobExecLogIndex(c *gin.Context) {
 	})
 }
 
-// Show a specific queue object in the database
+// JobExecLogShow godoc
+// @Summary      Get JobExecLog object by providing ID
+// @Tags         cronjob execution_log
+// @Produce      json
+// @Success      200  {array}  models.JobExecLog
+// @Failure      500  {object}  string
+// @Param        id  path  int  true  "ID"
+// @Router       /log/{id} [get]
 func JobExecLogShow(c *gin.Context) {
 	id := c.Param("id")
 

@@ -7,7 +7,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// List all queue objects in the database
+// CronjobQueueIndex godoc
+// @Summary      List all Cronjob Queue objects
+// @Tags         cronjob queue
+// @Produce      json
+// @Success      200  {object}  models.Queue
+// @Failure      500  {object}  string
+// @Router       /queue [get]
 func CronjobQueueIndex(c *gin.Context) {
 	var queueElements []models.Queue
 
@@ -25,7 +31,14 @@ func CronjobQueueIndex(c *gin.Context) {
 	})
 }
 
-// Show a specific queue object in the database
+// CronjobQueueShow godoc
+// @Summary      Get Cronjob Queue object by providing ID
+// @Tags         cronjob queue
+// @Produce      json
+// @Success      200  {array}  models.Queue
+// @Failure      500  {object}  string
+// @Param        id  path  int  true  "ID"
+// @Router       /queue/{id} [get]
 func CronjobQueueShow(c *gin.Context) {
 	id := c.Param("id")
 

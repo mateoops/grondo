@@ -1,8 +1,11 @@
 {
     "cSpell.words": [
+        "godoc",
         "gorm",
         "mattn",
         "robfig",
-        "sshkey"
+        "sshkey",
+        "sshutil",
+        "swaggo"
     ]
 }
