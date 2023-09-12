@@ -26,6 +26,11 @@ jobs:
           paths:
             - "/go/pkg/mod"
       - run:
+          name: Install gotestsum dependencies
+          command: |
+            go get crypto/ecdh
+            go get io/fs
+      - run:
           name: Run tests
           command: |
             mkdir -p /tmp/test-reports
