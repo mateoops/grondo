@@ -49,4 +49,4 @@ workflows:
       - docker/publish:
           image: grondo/grondo:0.0.0
           update-description: true
-          registry: 760617817594.dkr.ecr.eu-north-1.amazonaws.com/grondo
+          registry: 760617817594.dkr.ecr.eu-north-1.amazonaws.com
