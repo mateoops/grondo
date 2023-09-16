@@ -3,8 +3,7 @@
 version: 2.1
 
 orbs:
-  aws-ecr: circleci/aws-ecr@9.0.0
-  aws-cli: circleci/aws-cli@4.1.1
+  aws-ecr: circleci/aws-ecr@8.2.1
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
@@ -46,9 +45,6 @@ workflows:
       - test
       # Envs: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_ECR_ACCOUNT_URL
       - aws-ecr/build_and_push_image:
-          auth:
-            - aws-cli/setup:
-                role_arn: "${AWS_ARN_ROLE}"
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "dev"
           # requires:
