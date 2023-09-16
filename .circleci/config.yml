@@ -47,7 +47,6 @@ workflows:
       - aws-ecr/build_and_push_image:
           auth:
             - aws-cli/setup:
-                profile: "GrondoCI"
                 role_arn: "${AWS_ARN_ROLE}"
 
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
