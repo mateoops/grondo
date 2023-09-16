@@ -37,9 +37,7 @@ jobs:
           path: /tmp/test-reports
       - run:
           name: Build
-          command: go build -o bin/app
-  publish:
-  
+          command: go build -o bin/app  
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -48,7 +46,6 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build
-      - publish
       - docker/publish:
           image: grondo/grondo:0.0.0
           update-description: true
