@@ -48,6 +48,6 @@ workflows:
           auth:
             - aws-cli/setup:
                 role_arn: "${AWS_ARN_ROLE}"
-          role-session-name: grondo
+          role_session_name: grondo
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "dev"
