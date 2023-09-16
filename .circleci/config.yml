@@ -4,7 +4,7 @@ version: 2.1
 
 orbs:
   aws-ecr: circleci/aws-ecr@9.0.0
-  aws-cli: circleci/aws-cli@4.0
+  aws-cli: circleci/aws-cli@4.1.1
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
@@ -45,5 +45,10 @@ workflows:
     jobs:
       - build
       - aws-ecr/build_and_push_image:
+          auth:
+            - aws-cli/setup:
+                profile: "GrondoCI"
+                role_arn: "${AWS_ARN_ROLE}"
+
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "dev"
