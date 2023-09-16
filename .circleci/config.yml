@@ -37,7 +37,6 @@ workflows:
       - aws-ecr/build_and_push_image:
           auth:
             - aws-cli/setup:
-                #role_arn: "${AWS_ROLE_ARN}}"
                 profile_name: "default"
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "dev"
