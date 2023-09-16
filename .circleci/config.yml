@@ -3,7 +3,8 @@
 version: 2.1
 
 orbs:
-  docker: circleci/docker@2.2.0
+  aws-ecr: circleci/aws-ecr@9.0
+  aws-cli: circleci/aws-cli@4.0
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
@@ -35,9 +36,6 @@ jobs:
             go run gotest.tools/gotestsum@latest --junitfile /tmp/test-reports/unit-tests.xml
       - store_test_results:
           path: /tmp/test-reports
-      - run:
-          name: Build
-          command: go build -o bin/app  
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
