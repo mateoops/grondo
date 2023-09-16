@@ -50,4 +50,3 @@ workflows:
           image: grondo/grondo:0.0.0
           update-description: true
           registry: 760617817594.dkr.ecr.eu-north-1.amazonaws.com/grondo
-          use-docker-credentials-store: true
