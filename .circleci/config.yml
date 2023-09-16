@@ -3,7 +3,7 @@
 version: 2.1
 
 orbs:
-  aws-ecr: circleci/aws-ecr@9.0
+  aws-ecr: circleci/aws-ecr@9.0.0
   aws-cli: circleci/aws-cli@4.0
 
 # Define a job to be invoked later in a workflow.
@@ -44,6 +44,6 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build
-      - aws-ecr/build-and-push-image:
+      - aws-ecr/build_and_push_image:
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
-          tag: "${CIRCLE_SHA1}"
+          tag: "dev"
