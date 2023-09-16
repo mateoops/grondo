@@ -1,7 +1,8 @@
 version: 2.1
 
 orbs:
-  aws-ecr: circleci/aws-ecr@8.2.1
+  aws-ecr: circleci/aws-ecr@9.0.0
+  aws-cli: circleci/aws-cli@4.1.1
 
 jobs:
   test:
@@ -34,7 +35,12 @@ workflows:
       - test
       # Envs: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_ECR_ACCOUNT_URL
       - aws-ecr/build-and-push-image:
+          auth:
+            - aws-cli/setup:
+                role-arn: "${AWS_ROLE_ARN}}"
+                profile-name: "OIDC-User"
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "dev"
+          profile-name: "OIDC-User"
           requires:
             - test
