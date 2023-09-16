@@ -44,7 +44,6 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build
-      - docker/publish:
-          image: grondo/grondo:0.0.0
-          update-description: true
-          registry: 760617817594.dkr.ecr.eu-north-1.amazonaws.com/grondo
+      - aws-ecr/build-and-push-image:
+          repo: "${AWS_RESOURCE_NAME_PREFIX}"
+          tag: "${CIRCLE_SHA1}"
