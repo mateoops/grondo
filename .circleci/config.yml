@@ -4,12 +4,12 @@ version: 2.1
 
 orbs:
   aws-ecr: circleci/aws-ecr@9.0.0
-  aws-cli: circleci/aws-cli@4.1.1
+  #aws-cli: circleci/aws-cli@4.1.1
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
-  build:
+  test:
     working_directory: ~/repo
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/configuration-reference/#docker-machine-macos-windows-executor
@@ -43,11 +43,10 @@ workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - build
+      - test
+      # Envs: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_ECR_ACCOUNT_URL
       - aws-ecr/build_and_push_image:
-          auth:
-            - aws-cli/setup:
-                role_arn: "${AWS_ARN_ROLE}"
-                role_session_name: grondoCI
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "dev"
+          # requires:
+          #   - build
