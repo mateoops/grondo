@@ -1,6 +1,7 @@
 FROM golang:1.21-alpine
 
-ENV CGO_ENABLED=1
+RUN apk update && \
+    apk add sqlite
 
 WORKDIR /app
 
