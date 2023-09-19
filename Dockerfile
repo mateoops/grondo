@@ -1,6 +1,4 @@
-FROM golang:1.21-alpine
-
-RUN apk add --no-cache gcc
+FROM golang:1.21
 
 WORKDIR /app
 
