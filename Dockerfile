@@ -1,7 +1,6 @@
 FROM golang:1.21-alpine
 
-RUN apk update && \
-    apk add sqlite
+RUN apk add --no-cache gcc
 
 WORKDIR /app
 
@@ -11,7 +10,7 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o bin .
+RUN CGO_ENABLED=1 go build -o bin .
 
 EXPOSE 8080
 
