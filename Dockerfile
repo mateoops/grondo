@@ -10,7 +10,7 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=1 go build -o bin .
+RUN CGO_ENABLED=1 GOOS=linux go build -o bin -a -ldflags '-linkmode external -extldflags "-static"' .
 
 EXPOSE 8080
 
