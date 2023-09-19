@@ -1,4 +1,4 @@
-FROM golang:1.21-alpine
+FROM golang:1.21
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o bin .
+RUN CGO_ENABLED=1 GOOS=linux go build -o bin -a -ldflags '-linkmode external -extldflags "-static"' .
 
 EXPOSE 8080
 

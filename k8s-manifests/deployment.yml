@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grondo
+  namespace: grondo
+  labels:
+    app: grondo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grondo
+  template:
+    metadata:
+      labels:
+        app: grondo
+    spec:
+      containers:
+      - name: grondo
+        image: 760617817594.dkr.ecr.eu-north-1.amazonaws.com/grondo:dev
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8080
+      imagePullSecrets:
+        - name: ecrcred
+        
+# kubectl create secret docker-registry ecrcred \
+# --docker-server=760617817594.dkr.ecr.eu-north-1.amazonaws.com --docker-username=AWS \
+# --docker-password=$(aws ecr get-login-password) --namespace=grondo
